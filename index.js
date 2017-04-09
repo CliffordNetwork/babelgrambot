@@ -15,15 +15,20 @@ if(!TOKEN || !GOOGLE_CLOUD_API_KEY){
   return;
 }
 
+function processHTMLEntityCodes(phrase){
+  return phrase.replace(/&#(\d+);/g, function(m, p1){
+    return String.fromCharCode(p1)
+  })
+}
 function processTranslationAndAnswerInlineQuery(error, response, body, from, to, inline_query_id) {
 
   if(error) console.log('error:', error);
   // console.log('statusCode:', response && response.statusCode);
   if(response.statusCode != 200) return;
-
-  const translationData = JSON.parse(body);
-  const translatedPhrase = translationData.data.translations[0].translatedText;
   
+  const translationData = JSON.parse(body);
+  const translatedPhrase = processHTMLEntityCodes(translationData.data.translations[0].translatedText);
+
   const inlineQueryResult = {
     type: 'article',
     id: '0',
