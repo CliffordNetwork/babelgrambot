@@ -20,7 +20,7 @@ You will need to create a `.env` file with the environment variables BABELGRAM_T
 
 Deploy the app in Heroku
 
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/jonbesga/babelgrambot)
 
 And set the environment variables BABELGRAM_TOKEN and GOOGLE_CLOUD_API_KEY.
 
