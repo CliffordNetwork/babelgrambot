@@ -1,0 +1,6 @@
+{
+  "name": "babelgrambot",
+  "description": "Telegram bot that provides inline traslation using Google Translate API",
+  "repository": "https://github.com/jonbesga/babelgrambot",
+  "keywords": ["nodejs", "bot", "telegram-bot", "telegram", "javascript", "node-js", "heroku", "google-translate", "google-api", "translation", "translations"]
+}
