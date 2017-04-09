@@ -4,6 +4,8 @@ A Telegram bot using Google Translate API to facilitate comunication throught th
 ### Usage
 Write in any chat `@BabelgramBot <translate from language> <translate to language> <phrase to translate>` and wait for the inline translation to load. Then click on it and it will be sent as a message.
 
+For a list of supported language codes check: https://cloud.google.com/translate/docs/languages
+
 ### Installation in development environment
 Install the dependencies and devDependencies and start the server.
 
