@@ -1,5 +1,6 @@
-# Babelgram Bot
-A Telegram bot using Google Translate API to facilitate comunication throught the Telegram inline interface.
+# Babelgram Bot 
+## Translate from/to :de: :ru: :gb: :uk: :kr: :cn: :us: :fr: :es: :it: and more!
+A Telegram bot to use Google Translate throught the Telegram inline interface.
 
 ### Usage
 Write in any chat `@BabelgramBot <translate from language> <translate to language> <phrase to translate>` and wait for the inline translation to load. Then click on it and it will be sent as a message.
