@@ -1,0 +1,19 @@
+{
+  "name": "babelgrambot",
+  "version": "1.0.0",
+  "description": "Telegram bot that provides inline traslation using Google Translate API",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon index.js",
+    "start": "node index.js"
+  },
+  "author": "Jon Ander Besga <jonan.bsg@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "request": "^2.81.0"
+  },
+  "devDependencies": {
+    "nodemon": "^1.11.0",
+    "dotenv": "^4.0.0"
+  }
+}
