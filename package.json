@@ -5,13 +5,15 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon index.js",
-    "start": "node index.js"
+    "start": "node index.js",
+    "startdb": "docker-compose up -d"
   },
   "repository": "https://github.com/jonbesga/babelgrambot",
   "author": "Jon Ander Besga <jonan.bsg@gmail.com>",
   "license": "MIT",
   "dependencies": {
     "node-telegram-bot-api": "^0.28.0",
+    "pg": "^7.3.0",
     "request": "^2.81.0"
   },
   "devDependencies": {
