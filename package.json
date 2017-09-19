@@ -11,10 +11,11 @@
   "author": "Jon Ander Besga <jonan.bsg@gmail.com>",
   "license": "MIT",
   "dependencies": {
+    "node-telegram-bot-api": "^0.28.0",
     "request": "^2.81.0"
   },
   "devDependencies": {
-    "nodemon": "^1.11.0",
-    "dotenv": "^4.0.0"
+    "dotenv": "^4.0.0",
+    "nodemon": "^1.11.0"
   }
 }

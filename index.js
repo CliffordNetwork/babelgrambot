@@ -1,18 +1,16 @@
-'use strict'
-
-// https://cloud.google.com/translate/docs/languages
-const request = require('request');
+const TelegramBot = require('node-telegram-bot-api')
+const request = require('request')
 
 if(process.env.NODE_ENV != 'production'){
   require('dotenv').config();
 }
 
-const TOKEN = process.env.BABELGRAM_TOKEN || '';
+const TOKEN = process.env.TOKEN || '';
 const GOOGLE_CLOUD_API_KEY = process.env.GOOGLE_CLOUD_API_KEY || '';
+const WEBHOOK_URL = process.env.APP_URL || '';
 
-if(!TOKEN || !GOOGLE_CLOUD_API_KEY){
-  console.error('Make sure you have BABELGRAM_TOKEN and GOOGLE_CLOUD_API_KEY set as environment variables')
-  return;
+if(!TOKEN || !GOOGLE_CLOUD_API_KEY || !WEBHOOK_URL){
+  throw new Error('Make sure you have TOKEN, GOOGLE_CLOUD_API_KEY, AND APP_URL set as environment variables')
 }
 
 function processHTMLEntityCodes(phrase){
@@ -56,9 +54,21 @@ function processTranslationAndAnswerInlineQuery(error, response, body, from, to,
   });
 }
 
-function processInlineQuery(inline_query_id, query){
+const options = {
+  webHook: {
+    port: process.env.PORT
+  }
+};
 
-  const splitQuery = query.split(' ');
+const bot = new TelegramBot(TOKEN, options);
+bot.setWebHook(`${WEBHOOK_URL}/bot${TOKEN}`);
+
+bot.on('inline_query', (query) => {
+  
+  const inline_query_id = query.id
+  const queryText = query.query
+
+  const splitQuery = queryText.split(' ');
   const fromTo = splitQuery.splice(0, 2);
   if(fromTo.length != 2) return;
 
@@ -79,33 +89,16 @@ function processInlineQuery(inline_query_id, query){
   }, (error, response, body) => {
     processTranslationAndAnswerInlineQuery(error, response, body, from, to, inline_query_id);
   });
-}
+});
 
-let offset = 0;
-
-const requestResponse = (error, response, body) => {
-  if(error) console.log('error:', error);
-  // console.log('statusCode:', response && response.statusCode);
-  const botResponse = JSON.parse(body)
-  
-  if(botResponse.ok && botResponse.result){
-    botResponse.result.forEach(update => {
-      offset = update.update_id + 1;
-
-      if(update.inline_query){
-        // console.log(`type: inline, id: ${update.update_id}, text: ${update.inline_query.query}, query_id: ${update.inline_query.id}`)
-        processInlineQuery(update.inline_query.id, update.inline_query.query)
-      }
-    });
+bot.on('message', (message) => {
+  if(message.text == '/start'){
+    messageOptions = {
+      parse_mode: 'markdown',
+    }
+    const startMessage = '*How to use BabelgramBot*\nThis is an inline bot so you can use it from any conversation.\n\nFor that, write in any chat box \'@BabelgramBot\' followed by the language you want to translate from, the language you want to translate to, and the text to translate.\n\nFor example: _\'@BabelgramBot en es Hello how are you\'_\n\nThis will try to translate "Hello" from English to Spanish.\n\nYou can find the code languages in https://cloud.google.com/translate/docs/languages\n\n*Note from the developer*\nThis bot is currently used a lot so the API costs are $15\/month. Now I\'m using my free credit from Google Cloud but the bot will be shutdown when this credit runs out. If you want to help me with the costs, contact @heyjon for donations'
+    bot.sendMessage(message.from.id, startMessage, messageOptions)
   }
-}
+});
 
-function getUpdates() {
-  request({
-    uri: `https://api.telegram.org/bot${TOKEN}/getUpdates`,
-    qs: { offset }
-  }, requestResponse);
-}
-
-setInterval(getUpdates, 1000);
 console.log('Babelgrambot started!');
